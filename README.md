@@ -4,10 +4,10 @@
 
 <p align="center">
   <a href="https://cleanyour.tv">cleanyour.tv</a> ·
-  <a href="PROMPT.md">The prompt</a> ·
-  <a href="examples/">66 TV lists</a> ·
-  <a href="SHOWCASE.md">15 built on it</a> ·
-  <a href="https://x.com/gathint/status/2111379569030939102">The tweet</a>
+  <a href="PROMPT.md">Prompt 原文</a> ·
+  <a href="examples/">66 份电视清单</a> ·
+  <a href="SHOWCASE.md">15 个基于它的项目</a> ·
+  <a href="https://x.com/gathint/status/2111379569030939102">那条推文</a>
 </p>
 
 <p align="center">
@@ -19,164 +19,149 @@
   <a href="https://buymeacoffee.com/gathint"><img src="https://img.shields.io/badge/support-%E2%9D%A4-ff5e8a?style=flat&labelColor=15181e" alt="Support, buy me a coffee"></a>
 </p>
 
-Strip the bloatware from any Android TV or Google TV over Wi-Fi, and replace the ad-filled home
-screen with a clean launcher that looks like an Apple TV. **No root, no cable, nothing uninstalled,
-and a one-line restore if you change your mind.**
+通过 Wi-Fi 清除任意 Android TV 或 Google TV 上的预装垃圾软件（bloatware），把塞满广告的主屏幕换成一个外观神似 Apple TV 的清爽 launcher。**无需 root，无需数据线，不卸载任何东西，反悔时一条命令即可恢复。**
 
-<h3 align="center">66 TVs tested &nbsp;·&nbsp; 25 brands &nbsp;·&nbsp; 14 languages &nbsp;·&nbsp; 300 KB launcher</h3>
+<h3 align="center">已实测 66 台电视 &nbsp;·&nbsp; 25 个品牌 &nbsp;·&nbsp; 14 种语言 &nbsp;·&nbsp; 300 KB 的 launcher</h3>
 
 ![Before: stock Google TV home with a sponsored ad. After: the Clean Your TV launcher](docs/stock-vs-new-side.jpg)
 
-> Vibe coded my parents' TV this afternoon! It was showing a sponsored ad before you could even get
-> to Netflix. Gave Claude Code the model number, it found the TV on wifi, removed 25 Xiaomi packages
-> and wrote a new launcher. Looks like an Apple TV now lol.
+> 今天下午给我爸妈的电视来了波 vibe coding！以前连 Netflix 都还没进去，就先看到一条赞助广告。把型号发给 Claude Code，它自己在 Wi-Fi 上找到电视，移除了 25 个小米系统包，还写了个新 launcher。现在看着就像 Apple TV，哈哈。
 >
-> [@gathint, 17 October 2026](https://x.com/gathint/status/2111379569030939102). The replies are where
-> most of the TV lists here came from. The repo was called tv-vibehack until the 19th; old links work.
+> [@gathint，2026 年 10 月 17 日](https://x.com/gathint/status/2111379569030939102)。这里的大多数电视清单都来自那条推文的回复区。本仓库在 19 日之前叫 tv-vibehack，旧链接仍然有效。
 
-## How it works
+## 工作原理
 
-Android TVs have the same debug bridge as Android phones. Switch on USB debugging in the TV's
-developer options, allow your computer once, and the rest is standard Android tooling:
+Android TV 和 Android 手机用的是同一套调试桥（ADB）。在电视的开发者选项里打开 USB 调试，对你的电脑授权一次，剩下的就是标准的 Android 工具流程：
 
-1. **Back up** the list of installed packages and settings.
-2. **Disable** the manufacturer's telemetry, ad services, content rows and preloaded junk with
-   `pm disable-user`. Nothing is uninstalled, so a restore script can undo every step.
-3. **Install** a small native launcher and make it the default home screen.
+1. **备份**已安装包的列表和系统设置。
+2. 用 `pm disable-user` **停用**厂商的遥测、广告服务、内容推荐行和预装垃圾应用。什么都不会被卸载，因此恢复脚本可以撤销每一步。
+3. **安装**一个小巧的原生 launcher，并将其设为默认主屏幕。
 
-The bloat differs by brand, so the prompt has your coding assistant discover it on your TV and ask
-before touching anything you might use.
+预装垃圾因品牌而异，所以 prompt 会让你的编程助手在你的电视上自行探测，并在动任何你可能用得到的东西之前先询问你。
 
-## Quick start
+## 快速开始
 
-You need a computer on the same Wi-Fi as the TV and a coding assistant with shell access
-(Claude Code or similar).
+你需要一台与电视连在同一个 Wi-Fi 下的电脑，以及一个可以执行 shell 命令的编程助手（Claude Code 或同类工具）。
 
 | | |
 |---|---|
-| **1. On the TV** | Settings → Device Preferences → About → press OK on **Build** seven times → back → Developer options → **USB debugging** on. If you see a Network or ADB debugging toggle, turn that on too. Keep the TV on. |
-| **2. On your computer** | Paste [`PROMPT.md`](PROMPT.md) into your assistant and fill in your TV model. |
-| **3. Follow along** | Accept "Allow USB debugging?" on the TV, then answer the checklist: which apps you use, which four go in the dock, whether to keep the voice assistant, Chromecast and updates. |
+| **1. 在电视上** | 设置 → 设备偏好设置 → 关于 → 在 **Build** 一项上连按 OK 键七次 → 返回 → 开发者选项 → 打开 **USB 调试**。如果看到"网络调试"或"ADB 调试"开关，也一并打开。让电视保持开机。 |
+| **2. 在你的电脑上** | 把 [`PROMPT.md`](PROMPT.md) 粘贴给你的助手，并填入你的电视型号。 |
+| **3. 跟着提示走** | 在电视上确认"允许 USB 调试？"，然后回答核对清单：你常用哪些应用、dock 里放哪四个、是否保留语音助手、Chromecast 和系统更新。 |
 
-The assistant backs up, debloats, builds and installs the launcher, and checks each step with
-screenshots pulled from the TV. With this repo as context it takes about fifteen minutes.
+助手会完成备份、debloat、构建并安装 launcher，并用从电视上抓取的截图核对每一步。以本仓库作为上下文，全程约十五分钟。
 
-## What you get
+## 你将获得
 
-- **A pitch-black home** with a dock of your four favourite apps in a rounded band, where Apple TV puts it.
-- **A top shelf** naming the focused app in large type, with an ambient glow in a colour taken from its artwork.
-- **The rest of your apps in a grid** that slides up when you press Down.
-- **One floating glass highlight** that springs from tile to tile. The focused tile lifts and shows its name.
-- **Three frosted buttons**: Inputs (HDMI ports, AV, Live TV), Wi-Fi or Ethernet with the network name, Settings.
-- **A greeting, a thin clock and the date** in [Outfit](https://fonts.google.com/specimen/Outfit), and a matching Clock screensaver.
-- **Themes** that change colours, wallpaper, dock and columns without a rebuild, and **module cards** that let other apps plug a tile in, only with your say-so.
+- **纯黑的主屏幕**：一条圆角横条 dock 里放着你最爱的四个应用，位置与 Apple TV 如出一辙。
+- **top shelf** 以大号字体标出当前聚焦的应用，并伴有一圈取自其海报配色的环境光晕。
+- **其余应用收在网格里**，按下"下"键时向上滑出。
+- **一枚悬浮的玻璃高光**，在磁贴之间轻盈跃动。聚焦的磁贴会微微抬起并亮出名称。
+- **三枚磨砂按钮**：Inputs（HDMI 端口、AV、Live TV）、带网络名称的 Wi-Fi 或有线网络、Settings。
+- **[Outfit](https://fonts.google.com/specimen/Outfit) 字体的问候语、纤细时钟与日期**，以及配套的 Clock 屏保。
+- **主题**无需重新构建即可更换配色、壁纸、dock 与列数；**模块卡片**让其他应用也能插入一块磁贴——前提是你点头。
 
-And a TV that stops working against you: no sponsored rows, no "Discover" nags, no analytics
-phoning home, no apps you never asked for.
+以及一台不再处处与你作对的电视：没有赞助推荐行，没有"发现"页的轮番轰炸，没有偷偷回传的数据分析，也没有你从未主动要过的预装应用。
 
 | | |
 |---|---|
 | ![The top shelf names the focused app over an ambient glow in its colour](docs/focus-2-up-netflix.png) | ![The Inputs popup: HDMI ports with what is connected, AV and Live TV](docs/inputs-menu.jpg) |
-| *Top shelf and ambient glow* | *Inputs: HDMI with connection state, AV, Live TV* |
+| *top shelf 与环境光晕* | *Inputs：HDMI（含连接状态）、AV、Live TV* |
 | ![The grid with the glass highlight on a tile and its name beneath](docs/focus-1-fancode.png) | ![The Clock screensaver: a thin clock drifting over the glow](docs/clock-screensaver.png) |
-| *The grid, one glass highlight, the tile's name* | *Clock screensaver, drifts so nothing burns in* |
+| *应用网格、一枚玻璃高光、磁贴的名称* | *Clock 屏保，缓慢漂移以防烧屏* |
 | ![The aurora theme: a wallpaper and tinted pills, pushed without a rebuild](docs/theme-aurora.jpg) | ![Six columns and a six-app dock from a theme's config.json](docs/theme-six-columns.jpg) |
-| *Aurora theme, pushed with `tools/theme.sh`* | *Six columns and a six-app dock, same launcher* |
+| *Aurora 主题，用 `tools/theme.sh` 推送* | *六列布局与六应用 dock，同一个 launcher* |
 
-## Supported TVs
+## 支持的电视
 
-Anything running **Android TV** or **Google TV**. Samsung (Tizen) and LG (webOS) run different
-systems; see [SHOWCASE.md](SHOWCASE.md) for a webOS port. **Fire TV** takes the debloat half only,
-since Fire OS will not hand Home to a third-party launcher. A few China-market TCL sets refuse to
-install any launcher at all; their lists say so in the header.
+任何运行 **Android TV** 或 **Google TV** 的设备。三星（Tizen）和 LG（webOS）用的是另一套系统；webOS 移植版见 [SHOWCASE.md](SHOWCASE.md)。**Fire TV** 只适用于 debloat 那一半，因为 Fire OS 不会把主屏幕交给第三方 launcher。少数面向中国市场的 TCL 电视则完全拒绝安装任何 launcher，它们的清单会在开头注明这一点。
 
-Tested lists from contributors, one folder per model in [`examples/`](examples/):
+贡献者实测过的清单，每个型号一个文件夹，放在 [`examples/`](examples/)：
 
 **TCL** 14 · **Xiaomi** 14 · **Sony** 9 · **Philips** 4 · **Hisense** 3 · **CHiQ** 2 · **Skyworth** 2 ·
 AiPro2K · Amazon Fire TV Stick · BenQ · Chromecast with Google TV · Hitachi · Insignia Fire TV ·
 NVIDIA Shield · OnePlus · Panasonic · PRISM+ · RCA · Redmi · SANYO · Thomson · Toshiba Fire TV · Vu ·
-Stellamore and XGIMI projectors
+Stellamore 和 XGIMI 投影仪
 
 <details>
-<summary><strong>The full list</strong></summary>
+<summary><strong>完整清单</strong></summary>
 
-| TV | OS |
+| 电视 | 系统 |
 |---|---|
-| AiPro2K (Expressluck, dongnae; Changhong AI PONT family) | Android TV 14 |
-| Amazon Fire TV Stick 4K, 1st gen 2018 (AFTMM, mantis) | Fire OS 6.7.1.1 / Android 7.1 |
+| AiPro2K (Expressluck, dongnae; Changhong AI PONT 系列) | Android TV 14 |
+| Amazon Fire TV Stick 4K, 2018 年第 1 代 (AFTMM, mantis) | Fire OS 6.7.1.1 / Android 7.1 |
 | BenQ E55-735 (Changhong AI PONT, DVB96BQ) | Google TV 14 |
 | CHiQ AI PONT (Changhong GTVU65, dangni, MediaTek mt5867) | Google TV 14 |
 | CHiQ AI PONT (DVB93CQ) | Android TV 11 |
 | Chromecast with Google TV 4K (sabrina) | Google TV 14 |
-| Hisense HiSmartTV A4 (xiaoyushan, MStar m7322), India | Android TV 9 |
+| Hisense HiSmartTV A4 (xiaoyushan, MStar m7322), 印度 | Android TV 9 |
 | Hisense SmartTV 4K FFM (huangshan, MediaTek) | Android TV 10 |
-| Hisense U75 (hengshan, MediaTek), Latin America | Google TV 12 |
-| Hitachi 65QLEDSM20 (MTC, bangbae, MediaTek m7322), Australia | Android TV 11 |
+| Hisense U75 (hengshan, MediaTek), 拉丁美洲 | Google TV 12 |
+| Hitachi 65QLEDSM20 (MTC, bangbae, MediaTek m7322), 澳大利亚 | Android TV 11 |
 | Insignia 55" F30 4K Fire TV (NS-55F301NA25, AFTDCT31, duckie) | Fire OS 7 / Android 9 |
 | NVIDIA SHIELD TV Pro 2019 (P2897, mdarcy) | Android TV 11 |
-| OnePlus TV (D00, Dubai) | Google TV 14 |
+| OnePlus TV (D00, 迪拜) | Google TV 14 |
 | Panasonic 4KTV-JUP (Jupiter_PA, MediaTek) | Android TV 11 |
-| Philips 50PUS8517/12 (TP Vision, PH1M_EA_9970A, MediaTek MT5895), Europe | Android TV 11 |
-| Philips 55PUS7503/12 (TP Vision TPM171E, PH7M_EU_5596, MediaTek MT5891), Europe | Android TV 8.0 |
-| Philips R8G Google TV (MOKA, whitefield, Realtek RTD2851F), US | Google TV 14 |
-| Philips Smart 4K TV (Skyworth, eleonas, MediaTek), India | Google TV 14 |
+| Philips 50PUS8517/12 (TP Vision, PH1M_EA_9970A, MediaTek MT5895), 欧洲 | Android TV 11 |
+| Philips 55PUS7503/12 (TP Vision TPM171E, PH7M_EU_5596, MediaTek MT5891), 欧洲 | Android TV 8.0 |
+| Philips R8G Google TV (MOKA, whitefield, Realtek RTD2851F), 美国 | Google TV 14 |
+| Philips Smart 4K TV (Skyworth, eleonas, MediaTek), 印度 | Google TV 14 |
 | PRISM+ Q65 Ultra 2026 QLED 4K AI Google TV (R10G, PRISMPLUS_FFM, MOKA, Realtek RTD2875 SoC, RTD6748 platform) | Google TV 14 |
-| RCA AI PONT SA (Changhong, redwood, ISDB92RC; also sold as realme 40-inch) | Android 14 |
-| Redmi TV (MiTV-ANTL0, starwars) | Android 5.1.1 (not Android TV) |
+| RCA AI PONT SA (Changhong, redwood, ISDB92RC; 也以 realme 40 英寸机型销售) | Android 14 |
+| Redmi TV (MiTV-ANTL0, starwars) | Android 5.1.1 (并非 Android TV) |
 | SANYO ATV R2 (SCBC, Realtek RTD285O) | Android TV 9 |
 | Skyworth SWTV-21AE (sunnyvale, MediaTek) | Android TV 14 |
-| Skyworth SWTV-24NA-4K NF (eleonas, MediaTek mt5896), US | Google TV 14 |
-| Sony BRAVIA 4K AE2 (BRAVIA_AE2, MediaTek MT5897), North America | Google TV 14 |
+| Skyworth SWTV-24NA-4K NF (eleonas, MediaTek mt5896), 美国 | Google TV 14 |
+| Sony BRAVIA 4K AE2 (BRAVIA_AE2, MediaTek MT5897), 北美 | Google TV 14 |
 | Sony BRAVIA 4K GB (BRAVIA_ATV2_EU, BRAVIA_ATV2) | Android TV 9 |
 | Sony BRAVIA 4K UR2 (BRAVIA_UR2_4K, MediaTek) | Android TV 10 |
-| Sony BRAVIA 4K VH2 (KD-55X80J, BRAVIA_VH2, MediaTek), EU | Google TV 12 |
+| Sony BRAVIA 4K VH2 (KD-55X80J, BRAVIA_VH2, MediaTek), 欧洲 | Google TV 12 |
 | Sony BRAVIA 9 II (K-65XR90M2, BRAVIA_AE3, MediaTek MT5838) | Google TV 14 |
-| Sony BRAVIA BF1 (BRAVIA 2 II class, BRAVIA_BF1_4K_A, MediaTek) | Google TV 12 |
-| Sony BRAVIA KD-55X85J (2021, BRAVIA_VH2, MediaTek MT5895), South America | Google TV 12 |
-| Sony BRAVIA KD-65X80J (2021, BRAVIA_VH2, MediaTek), India | Google TV 10 |
+| Sony BRAVIA BF1 (BRAVIA 2 II 级别, BRAVIA_BF1_4K_A, MediaTek) | Google TV 12 |
+| Sony BRAVIA KD-55X85J (2021, BRAVIA_VH2, MediaTek MT5895), 南美 | Google TV 12 |
+| Sony BRAVIA KD-65X80J (2021, BRAVIA_VH2, MediaTek), 印度 | Google TV 10 |
 | Sony BRAVIA XBR-65X900E (2017, BRAVIA_ATV2) | Android TV 9 |
-| Stellamore T950S projector (Droidlogic be30a3, Amlogic txhd2) | Android 13 |
+| Stellamore T950S 投影仪 (Droidlogic be30a3, Amlogic txhd2) | Android 13 |
 | TCL 40S5400A (C06, C06_2K_GB, MediaTek MT9221, 1 GB) | Android TV 11 |
-| TCL 43C645 (Smart TV Pro, Realtek RTD2851 / R51MT05, V8-R51MT05-LF1V652) | Google TV launcher on Android TV 11 |
-| TCL 50EP680 (Europe, BeyondTV, Realtek rtd285o) | Android TV 11 |
-| TCL 55" 4K Google TV, 2023 (G10, G10_4K_US_NF); also TCL 55P6K, Spain (G10_4K_GB_NF_32BIT) | Google TV 12 |
-| TCL 55Q10G Pro (China, tcl_mt5879_cn, MediaTek MT9952) | Android TV 11 |
+| TCL 43C645 (Smart TV Pro, Realtek RTD2851 / R51MT05, V8-R51MT05-LF1V652) | Android TV 11 上的 Google TV launcher |
+| TCL 50EP680 (欧洲, BeyondTV, Realtek rtd285o) | Android TV 11 |
+| TCL 55" 4K Google TV, 2023 (G10, G10_4K_US_NF); 另有 TCL 55P6K, 西班牙 (G10_4K_GB_NF_32BIT) | Google TV 12 |
+| TCL 55Q10G Pro (中国, tcl_mt5879_cn, MediaTek MT9952) | Android TV 11 |
 | TCL 65C725 (Smart TV Pro, BeyondTV4) | Android TV 11 |
-| TCL 65C735 (Smart TV Pro, G05, MediaTek), France | Google TV 11 |
-| TCL ak30a5 (China, Amlogic) | Android TV 9 |
-| TCL BeyondTV (India) | Android TV 9 |
-| TCL BeyondTV, EU/Nordic (Realtek RTD2851, V8-R851T02-LF1V606) | Android TV 9 |
-| TCL BeyondTV2 (Latin America / Brazil, Realtek RTD2851) | Android TV 9 |
+| TCL 65C735 (Smart TV Pro, G05, MediaTek), 法国 | Google TV 11 |
+| TCL ak30a5 (中国, Amlogic) | Android TV 9 |
+| TCL BeyondTV (印度) | Android TV 9 |
+| TCL BeyondTV, 欧洲/北欧 (Realtek RTD2851, V8-R851T02-LF1V606) | Android TV 9 |
+| TCL BeyondTV2 (拉丁美洲/巴西, Realtek RTD2851) | Android TV 9 |
 | TCL QM6K Pro, 2025 (G08, MediaTek tcl9618) | Google TV 14 |
 | TCL Smart TV Pro (G05, G05_4K_US, MediaTek MT5889) | Google TV 11 |
-| TCL UnionTV, Latin America (TCL-built like Thomson 32HE5800, Realtek RT2841) | Android TV 9 |
-| Thomson 32HE5800 (TCL-built UnionTV, Realtek RT2841), Spain | Android TV 9 |
+| TCL UnionTV, 拉丁美洲 (TCL 制造, 同 Thomson 32HE5800, Realtek RT2841) | Android TV 9 |
+| Thomson 32HE5800 (TCL 制造的 UnionTV, Realtek RT2841), 西班牙 | Android TV 9 |
 | Toshiba Fire TV (AFTHA004, hazel) | Fire OS 7 / Android 9 |
-| Vu 4K (HVCL, lushan, MediaTek), India | Google TV 12 |
-| XGIMI Horizon S Pro projector (XK03H, xgimigalileo, MediaTek) | Android TV 11 |
-| Xiaomi Mi Box S (MIBOX4, oneday), streaming box | Android TV 9 |
-| Xiaomi Mi Box S 2nd gen (MiTV-AFKR0, jaws), streaming box | Google TV 11 |
+| Vu 4K (HVCL, lushan, MediaTek), 印度 | Google TV 12 |
+| XGIMI Horizon S Pro 投影仪 (XK03H, xgimigalileo, MediaTek) | Android TV 11 |
+| Xiaomi Mi Box S (MIBOX4, oneday), 流媒体盒子 | Android TV 9 |
+| Xiaomi Mi Box S 第 2 代 (MiTV-AFKR0, jaws), 流媒体盒子 | Google TV 11 |
 | Xiaomi Mi TV (MiTV-MOOQ0, croods) | Android TV 10 |
 | Xiaomi Mi TV 4A (MiTV-MOOQ1) | Android TV 10 |
 | Xiaomi MiTV-AESP0 stick (aquaman, 1 GB) | Android TV 9 |
-| Xiaomi MiTV-ASTP1 (maverick), China firmware 2.40.641.0514.cn, 1 GB RAM, 720p | Android TV 9 (CN build) |
-| Xiaomi MiTV-AXFR1 (rango, Amlogic, 1 GB), India | Android TV 11 |
+| Xiaomi MiTV-ASTP1 (maverick), 中国固件 2.40.641.0514.cn, 1 GB RAM, 720p | Android TV 9 (CN 版) |
+| Xiaomi MiTV-AXFR1 (rango, Amlogic, 1 GB), 印度 | Android TV 11 |
 | Xiaomi MiTV-AXSO0 (dangal; Mi TV 4C Pro 2019 / 4A Pro) | Android TV 9 |
 | Xiaomi MiTV-MOOR2 (venom, MediaTek) | Google TV 11 |
 | Xiaomi MiTV-MOSR4 (irobot, MediaTek) | Google TV 11 |
 | Xiaomi MiTV-MSSP3 (machuca, MediaTek) | Android TV 11 |
-| Xiaomi MiTV-MSSP3 (machuca, MediaTek), Android 9 firmware PI.7524 | Android TV 9 |
+| Xiaomi MiTV-MSSP3 (machuca, MediaTek), Android 9 固件 PI.7524 | Android TV 9 |
 | Xiaomi TV A Pro 75" 2026 (MiTV-MZTU0, river, MediaTek) | Google TV 14 |
-| Xiaomi TV Box S 3rd gen (MiTV-AFMU0, twilight, Amlogic), streaming box | Google TV 14 |
+| Xiaomi TV Box S 第 3 代 (MiTV-AFMU0, twilight, Amlogic), 流媒体盒子 | Google TV 14 |
 
 </details>
 
-Your TV not here? The prompt discovers the bloat itself. Add your list afterwards and the next
-person with your model skips that step: [CONTRIBUTING.md](CONTRIBUTING.md).
+你的电视不在这里？prompt 会自行探测预装垃圾。之后把你的清单提交上来，下一个用同型号的人就能跳过这一步：[CONTRIBUTING.md](CONTRIBUTING.md)。
 
-## Doing it by hand
+## 手动操作
 
-Everything the assistant does, you can run yourself. The tools need Python 3 and nothing else.
+助手能做的每一件事，你都可以亲手执行。这些工具只需要 Python 3，再无其他依赖。
 
 ```bash
 python3 -m venv tools/venv && tools/venv/bin/pip install -r tools/requirements.txt
@@ -190,19 +175,17 @@ TV_HOST=192.168.1.50 launcher/build-and-install.sh           # build the launche
 tools/theme.sh themes/aurora                                 # push a theme; --reset removes it
 ```
 
-| Tool | What it does |
+| 工具 | 作用 |
 |---|---|
-| [`tools/tv.py`](tools/tv.py) | Pure-Python ADB client: shell, batch, push, pull. Works where the stock `adb` binary is blocked. |
-| [`tools/b64push.py`](tools/b64push.py) | Uploads large files such as APKs in base64 chunks and verifies the checksum. |
-| [`tools/disable.sh`](tools/disable.sh), [`restore.sh`](tools/restore.sh) | Apply or undo a debloat list. |
-| [`tools/theme.sh`](tools/theme.sh) | Push a folder from [`themes/`](themes/) to the launcher and restart Home. |
-| [`launcher/build-and-install.sh`](launcher/build-and-install.sh) | Builds a shrunk release (about 300 KB), installs it, switches Home, and rolls back if Home does not land on it. |
+| [`tools/tv.py`](tools/tv.py) | 纯 Python 的 ADB 客户端：shell、批量执行、push、pull。在系统自带 `adb` 二进制被禁用的环境下也能用。 |
+| [`tools/b64push.py`](tools/b64push.py) | 以 base64 分块上传 APK 等大文件，并进行校验和验证。 |
+| [`tools/disable.sh`](tools/disable.sh), [`restore.sh`](tools/restore.sh) | 应用或撤销一份 debloat 清单。 |
+| [`tools/theme.sh`](tools/theme.sh) | 把 [`themes/`](themes/) 下的一个文件夹推送到 launcher，并重启主屏幕。 |
+| [`launcher/build-and-install.sh`](launcher/build-and-install.sh) | 构建精简后的安装包（约 300 KB），完成安装并切换主屏幕；如果主屏幕没有落到新 launcher 上，会自动回滚。 |
 
-Debloat list paths passed to `disable.sh` and `restore.sh` are relative to the directory you run
-from, so your own lists can live outside the repository. Absolute paths also work.
+传给 `disable.sh` 和 `restore.sh` 的 debloat 清单路径按你运行命令所在目录解析，因此你自己的清单可以放在仓库之外，绝对路径同样可用。
 
-Every script has a PowerShell twin next to it. On Windows with Android Studio installed nothing
-else is needed:
+每个脚本旁边都有一个对应的 PowerShell 版本。Windows 上装好 Android Studio 后就无需其他依赖：
 
 ```powershell
 python -m venv tools\venv; tools\venv\Scripts\python.exe -m pip install -r tools\requirements.txt
@@ -210,126 +193,90 @@ powershell -ExecutionPolicy Bypass -File launcher\build-and-install.ps1 -TvHost 
 powershell -ExecutionPolicy Bypass -File tools\disable.ps1 -TvHost 192.168.1.50 examples\xiaomi-mi-tv-4a\debloat.txt
 ```
 
-The install scripts ask the TV which launcher owns Home and only disable one they recognise
-(`tvlauncher` or `launcherx`); pass `STOCK_LAUNCHER=<package>` (`-StockLauncher`) to override, or
-`none` to leave it alone.
+安装脚本会先问电视主屏幕当前归哪个 launcher 所有，并且只停用它能识别的那个（`tvlauncher` 或 `launcherx`）；如需手动指定请传 `STOCK_LAUNCHER=<package>`（PowerShell 为 `-StockLauncher`），传 `none` 则完全不动它。
 
-## The launcher
+## launcher 详解
 
-A small native Android TV app (`com.gathin.tvhome`, about 300 KB installed) in plain Java with
-AndroidX RecyclerView and nothing heavier. Built for sets with 1 GB of RAM: no blur, no video, no
-network, no background services. It needs JDK 17 and Android SDK platform 34 to build; on macOS,
-`brew install openjdk@17 android-commandlinetools` and `sdkmanager "platforms;android-34" "build-tools;34.0.0"`. On Linux
-the install script finds `~/Android/Sdk` and the `java` on your PATH.
+一个小巧的原生 Android TV 应用（`com.gathin.tvhome`，安装后约 300 KB），用朴素的 Java 和 AndroidX RecyclerView 写成，没有引入任何更重的东西。专为 1 GB 内存的电视打造：无模糊、无视频、无联网、无后台服务。构建需要 JDK 17 和 Android SDK platform 34；在 macOS 上执行 `brew install openjdk@17 android-commandlinetools` 和 `sdkmanager "platforms;android-34" "build-tools;34.0.0"`。在 Linux 上，安装脚本会自动找到 `~/Android/Sdk` 以及 PATH 中的 `java`。
 
-- **Configure** in [`config.xml`](launcher/app/src/main/res/values/config.xml): dock order, hidden apps, the Live TV package, columns (tiles shrink from 5 up), rows under the dock, an optional VPN app for the network pill, and `reduced_motion` for TVs whose GPU cannot keep up.
-- **On-TV launcher settings:** click Settings for the TV's system settings, or hold OK on Settings and choose Launcher settings to set 4, 5, 6 or 7 apps per row, turn animations on or off, and opt into advanced effects. The advanced option adds tile lift, icon zoom and smooth ambient-colour transitions; it may use more memory. Use Follow theme to clear on-TV choices. Pushing or resetting a theme also clears them.
-- **Change the default home:** Launcher settings and the optional Default-home tile (`show_home_settings_shortcut`) open Android's home picker. Choose the original launcher to stop using CleanYourTV as Home, or CleanYourTV to return. The original launcher must be enabled. If the install script disabled it, use the restore script below first. Some TVs provide no home picker.
-- **Themes** set the same keys plus a background colour and a wallpaper from a `config.json` pushed to the TV, no rebuild. Three ship in [`themes/`](themes/), documented there.
-- **Language** follows the TV: English, German, Spanish, Catalan, French, Russian, Serbian (Latin), Polish, Portuguese, Turkish, Arabic, Hebrew, Simplified Chinese, Thai. Android 13+ can set it for the launcher alone: `tools/tv.py 'cmd locale set-app-locales com.gathin.tvhome --locales ca'`.
-  Hebrew places the menu buttons on the left and the date and clock on the right, with the greeting above the clock. The Clock screensaver right-aligns its date and time, and Hebrew dates include the month prefix ב (for example, 19 באוקטובר). Hebrew dock and app-grid rows start on the right, with matching left/right remote navigation. The Hebrew input selector places icons and labels on the right, status on the left, and aligns the dropdown with the Inputs button’s right edge. Other languages keep their original layouts.
-  Russian includes the module-card approval and management screens and the VPN-off badge.
-- **Module cards** let any TV app declare its own tile (label, caption, glow). The launcher asks you once per app, Keep hidden by default, and remembers the answer for that app's signing key and card name. Hold OK on Settings and choose Module cards to change your mind. How to make one: [`docs/modules.md`](docs/modules.md); the contract: [`docs/specs/card.md`](docs/specs/card.md).
-- **Clock screensaver**: a drifting clock over the glow, so nothing burns in. Pick "Clock" in the TV's screensaver settings, or over ADB:
+- 在 [`config.xml`](launcher/app/src/main/res/values/config.xml) 里**配置**：dock 顺序、隐藏应用、Live TV 包名、列数（从 5 列起磁贴开始缩小）、dock 下方的行数、网络胶囊里可选展示的 VPN 应用，以及为 GPU 跟不上的电视准备的 `reduced_motion`。
+- **电视端 launcher 设置：**点击 Settings 进入电视的系统设置；或在 Settings 上长按 OK 键并选择 Launcher settings，可设置每行 4、5、6 或 7 个应用、开或关动画，以及选择启用高级特效。高级特效会增加磁贴抬起、图标缩放和平滑的环境色过渡；可能占用更多内存。选择 Follow theme 可清除电视端的选择；推送或重置主题也会清除它们。
+- **更换默认主屏幕：**Launcher settings 和可选的 Default-home 磁贴（`show_home_settings_shortcut`）会打开 Android 的主屏幕选择器。选原来的 launcher 即可不再用 CleanYourTV 作主屏幕，选 CleanYourTV 则换回来。原来的 launcher 必须处于启用状态；如果安装脚本停用了它，请先用下文的恢复脚本。有些电视不提供主屏幕选择器。
+- **主题**通过推送到电视的 `config.json` 设置上述同一批键值，外加背景色和壁纸，无需重新构建。[`themes/`](themes/) 内置三套主题，文档见该目录。
+- **语言**跟随电视系统：英语、德语、西班牙语、加泰罗尼亚语、法语、俄语、塞尔维亚语（拉丁）、波兰语、葡萄牙语、土耳其语、阿拉伯语、希伯来语、简体中文、泰语。Android 13+ 可单独为 launcher 指定语言：`tools/tv.py 'cmd locale set-app-locales com.gathin.tvhome --locales ca'`。
+  希伯来语下，菜单按钮位于左侧，日期和时钟位于右侧，问候语在时钟上方。Clock 屏保的日期与时间右对齐，希伯来语日期带有月份前缀 ב（例如 19 באוקטובר）。希伯来语的 dock 和应用网格行从右侧开始，遥控器的左右导航随之镜像。希伯来语的输入源选择器将图标和标签放在右侧、状态放在左侧，下拉菜单与 Inputs 按钮右缘对齐。其他语言保持原有布局。
+  俄语包含模块卡片的批准与管理界面，以及 VPN 关闭徽章。
+- **模块卡片**让任何电视应用都能声明自己的磁贴（标签、说明文字、光晕）。launcher 会就每个应用询问你一次，默认"保持隐藏"，并按该应用的签名密钥和卡片名记住答案。想改主意，长按 Settings 上的 OK 键并选择 Module cards。制作方法：[`docs/modules.md`](docs/modules.md)；接口契约：[`docs/specs/card.md`](docs/specs/card.md)。
+- **Clock 屏保**：光晕之上缓缓漂移的时钟，杜绝烧屏。在电视的屏保设置里选择"Clock"，或通过 ADB：
   `tools/tv.py 'settings put secure screensaver_components com.gathin.tvhome/.ClockDream; settings put secure screensaver_enabled 1'`
-- **Remote keys**: an optional accessibility service keeps the remote's Input button working on Google TV (`INPUT_KEY_SERVICE=1` at install), another fixes sticks whose Home key sends ALL_APPS and opens Settings from the remote's gear button, even one Android does not map (`HOME_KEY_SERVICE=1`, scancodes or keycodes in `config.xml`).
-- **Navigation** is deliberate: Up and Down move one row, the top buttons never fall through to tiles and Down from them returns to the dock tile you came from, the last focused app is remembered, and installing or removing an app refreshes the tiles while Home is open.
-- **Artwork**: app banners load at xhdpi or better, so low-density TV UIs do not downsample them before the focus zoom.
+- **遥控器按键**：一个可选的无障碍服务让遥控器的 Input 键在 Google TV 上继续可用（安装时设 `INPUT_KEY_SERVICE=1`）；另一个服务修复某些电视棒 Home 键被误发为 ALL_APPS 的问题，并支持用遥控器的齿轮键打开 Settings——哪怕是 Android 没有映射的键也行（`HOME_KEY_SERVICE=1`，scancode 或 keycode 在 `config.xml` 里配置）。
+- **导航**经过精心设计：上、下键一次移动一行；顶部按钮绝不会让焦点落到磁贴上，从它们按"下"会回到你来时所在的 dock 磁贴；最后聚焦的应用会被记住；主屏幕开着时安装或卸载应用会立即刷新磁贴。
+- **应用海报**：应用横幅以 xhdpi 或更高分辨率加载，这样低密度的电视 UI 就不会在聚焦放大之前先把它们降采样。
 
-## Restoring your TV
+## 恢复你的电视
 
-Keep the list you applied. The restore script re-enables exactly those packages, puts the stock
-launcher back as Home and resets the animation scales:
+请保管好你应用的那份清单。恢复脚本会精确重新启用其中的包，把原装 launcher 放回主屏幕，并重置动画缩放：
 
 ```bash
 TV_HOST=192.168.1.50 tools/restore.sh examples/<your tv>/debloat.txt                                    # Android TV
 TV_HOST=192.168.1.50 tools/restore.sh examples/<your tv>/debloat.txt com.google.android.apps.tv.launcherx  # Google TV
 ```
 
-It leaves the new launcher installed (remove it from the TV's Settings → Apps if you want it gone)
-and does not know about packages you disabled outside the list. To switch back later, run the
-install script again; it works out which launcher to disable even when Home has fallen back to
-Android's chooser. If the TV is unreachable, its own
-Settings → Apps page can re-enable packages too.
+它会把新 launcher 留在电视上（不想留就到电视的 设置 → 应用 里移除），也不感知你在清单之外停用的包。以后想换回去，重新运行一次安装脚本即可；即便主屏幕已经回落到 Android 的选择器，它也能判断出该停用哪个 launcher。如果电视已经连不上，电视自带的 设置 → 应用 页面同样可以重新启用这些包。
 
-## When something goes wrong
+## 出问题怎么办
 
-The full list of things that bit us is in [docs/TROUBLESHOOTING.md](docs/TROUBLESHOOTING.md). The
-three that matter most:
+我们踩过的坑完整记录在 [docs/TROUBLESHOOTING.md](docs/TROUBLESHOOTING.md)。最要紧的三条：
 
-- **macOS blocks `adb connect`** ("No route to host") under Local Network privacy. `tools/tv.py` avoids the binary.
-- **Disable the stock launcher only after the new one is installed and running**, or Home lands on a factory test app. The install script orders this for you.
-- **On Google TV the setup wizard** (`com.google.android.tungsten.setupwraith`) can take Home and crash-loop the system after the stock launcher is disabled. Disable it too, and list it in your `debloat.txt` so restore brings it back. But check `dumpsys wifi | grep -o 'cname=[^ ]*'` first: if the Wi-Fi network was saved during setup it belongs to setupwraith, and disabling it deletes the network (re-join it in Settings first; `tools/disable.sh` skips setupwraith until you do). Stuck already? `tools/tv.py 'pm enable --user 0 com.google.android.apps.tv.launcherx'`.
+- **macOS 在"本地网络"隐私限制下会拦截 `adb connect`**（报"No route to host"）。`tools/tv.py` 不依赖这个二进制，可以绕开。
+- **务必等新 launcher 安装并运行之后再停用原装 launcher**，否则主屏幕会落到某个工厂测试应用上。安装脚本已替你排好顺序。
+- **在 Google TV 上，设置向导**（`com.google.android.tungsten.setupwraith`）会在原装 launcher 被停用后抢走主屏幕，并让系统陷入崩溃循环。把它也停用，并写进你的 `debloat.txt`，这样恢复时才能一并还原。但请先检查 `dumpsys wifi | grep -o 'cname=[^ ]*'`：如果 Wi-Fi 网络是在设置向导里保存的，它就归 setupwraith 所有，停用它会把这条网络一并删掉（先在设置里重新加入网络；在那之前 `tools/disable.sh` 会跳过 setupwraith）。已经卡住了？执行 `tools/tv.py 'pm enable --user 0 com.google.android.apps.tv.launcherx'`。
 
-## Questions people ask
+## 常见问题
 
-**Is this safe? Can it brick the TV?** Nothing is flashed, rooted or deleted; packages are disabled
-in the user profile. The risk is disabling something the TV leans on, which is why lists are
-applied in small batches with a restore script ready. The TV's own Settings → Apps page can
-re-enable packages even without the tools.
+**安全吗？会把电视变砖吗？**不会刷写、root 或删除任何东西；包只是在用户空间里被停用。真正的风险是停用了电视赖以运行的东西，所以清单都是小批量应用，并随时备好恢复脚本。即使没有这些工具，电视自带的 设置 → 应用 页面也能重新启用这些包。
 
-**What about firmware updates?** Most lists disable the update service, so updates arrive only when
-you re-enable it. If one lands, the worst case is a package coming back and you re-run the script.
+**固件更新怎么办？**大多数清单会停用更新服务，所以只有当你重新启用它时更新才会到来。万一装上了，最坏的情况也不过是某个包又回来了，再跑一遍脚本就行。
 
-**Won't the apps break?** Streaming apps still update through the Play Store, which is left alone.
-The launcher just lists what is installed and launches it with intents that have been stable for a decade.
+**应用会不会坏掉？**流媒体应用照常通过 Play 商店更新，而商店本身不受影响。launcher 只是列出已安装的应用，并用十年来一直稳定的 intent 去启动它们。
 
-**Can I do this for someone in another home?** Yes, over a private [Tailscale](https://tailscale.com)
-link instead of the same Wi-Fi: either Tailscale on their TV, shared with you, or a computer or Apple
-TV at their home routing to it. Never by opening the ADB port on their router. Step by step in
-[docs/REMOTE.md](docs/REMOTE.md).
+**能帮住在另一个家的人弄吗？**可以，通过一条私密的 [Tailscale](https://tailscale.com) 链路而非同一 Wi-Fi：要么在对方的电视上装 Tailscale 并共享给你，要么用对方家里的一台电脑或 Apple TV 路由过去。绝不要靠在对方的路由器上开放 ADB 端口来实现。分步做法见 [docs/REMOTE.md](docs/REMOTE.md)。
 
-**Isn't ADB access a security hole?** It is one explicit "allow this computer" tap on the TV, the
-same as developing an Android app. Network ADB is plaintext on port 5555, and on firmware with
-`ro.adb.secure=0` any device on the LAN gets a shell, so close it when you are done:
+**开放 ADB 访问难道不是安全漏洞吗？**它只是在电视上明确点一次"允许这台电脑"，和开发 Android 应用一样。网络 ADB 在 5555 端口上是明文传输，而在带 `ro.adb.secure=0` 的固件上，局域网内的任何设备都能拿到 shell，所以用完请关掉：
 
-1. On the TV: Developer options → turn **USB debugging** and **Network/ADB debugging** off, and
-   revoke the USB debugging authorisations.
-2. Reboot the TV, then confirm the port is gone from your computer: `nc -vz <tv ip> 5555` must fail.
+1. 在电视上：开发者选项 → 关闭 **USB 调试**和 **网络/ADB 调试**，并撤销 USB 调试授权。
+2. 重启电视，然后在你的电脑上确认端口已经关掉：`nc -vz <tv ip> 5555` 必须连接失败。
 
-The launcher keeps working without debugging.
+关掉调试之后，launcher 依然照常工作。
 
-**Can it block ads inside apps too?** Partly, with Android's Private DNS (Android 9 and newer). Point
-it at an ad-blocking resolver such as [AdGuard DNS](https://adguard-dns.io) and every app's ad and
-tracker domains stop resolving, system-wide, surviving reboots. The trade-off: that resolver then
-sees every DNS query the TV makes.
+**应用内的广告也能拦吗？**可以拦一部分，用 Android 的私人 DNS（Private DNS，Android 9 及以上）。把它指向 [AdGuard DNS](https://adguard-dns.io) 这类拦截广告的解析器后，全系统所有应用的广告与跟踪域名都无法解析，重启后依然生效。代价是：这个解析器随后能看到电视发出的每一个 DNS 查询。
 
 ```bash
 tools/tv.py 'settings put global private_dns_specifier dns.adguard-dns.com'
 tools/tv.py 'settings put global private_dns_mode hostname'
 ```
 
-It does not remove YouTube ads, which come from the same servers as the videos. If an app stops
-playing or the TV reports "No internet" (the resolver is down or unreachable), switch back with
-`tools/tv.py 'settings put global private_dns_mode opportunistic'`.
+它去不掉 YouTube 广告，因为广告和视频来自同一批服务器。如果有应用放不出来，或者电视提示"无互联网"（解析器宕机或不可达），用 `tools/tv.py 'settings put global private_dns_mode opportunistic'` 切换回去。
 
-**AirPlay?** Not from this repo. Chromecast built-in stays for Android phones. For iPhones,
-[jqssun/android-airplay-server](https://github.com/jqssun/android-airplay-server) works; an install
-script for it is in [PR #84](https://github.com/Gathin23/cleanyourtv/pull/84).
+**AirPlay 呢？**本仓库不做。Android 手机可以继续用内置 Chromecast 投屏。iPhone 的话，[jqssun/android-airplay-server](https://github.com/jqssun/android-airplay-server) 可行；[PR #84](https://github.com/Gathin23/cleanyourtv/pull/84) 里有它的安装脚本。
 
-**Can I just download the APK?** Build it with the one-line script; it takes a minute and you
-control what goes on your TV. No prebuilt binaries.
+**能直接下载 APK 吗？**用那条一行命令的脚本自己构建，只要一分钟，而且上你电视的东西由你把关。不提供预编译二进制。
 
-## Contributing
+## 参与贡献
 
-The most useful contribution is your TV's debloat list, so the next person with that model does
-not have to rediscover it. Launcher improvements and sharper prompt wording are welcome too.
-[CONTRIBUTING.md](CONTRIBUTING.md) has the format and the testing we ask for. Built something on
-top, a launcher, a port, a theme? Add it to [SHOWCASE.md](SHOWCASE.md), where eleven projects already
-live: a webOS port for LG, a Stremio shelf, a Hisense restyle, Fire TV launchers, an AirPlay installer.
+最有用的贡献是你电视的 debloat 清单，让下一个同型号用户不必重新摸索。launcher 的改进和更精炼的 prompt 措辞也同样欢迎。格式和我们要求的测试见 [CONTRIBUTING.md](CONTRIBUTING.md)。在上面构建了点什么——一个 launcher、一个移植、一套主题？把它加进 [SHOWCASE.md](SHOWCASE.md)，那里已经有十一个项目：LG 的 webOS 移植、一个 Stremio shelf、一个 Hisense 换肤、若干 Fire TV launcher、一个 AirPlay 安装器。
 
-The people whose work is in this repo:
+本仓库凝结着以下这些人的工作：
 
 <a href="https://github.com/Gathin23/cleanyourtv/graphs/contributors"><img src="https://contrib.rocks/image?repo=Gathin23/cleanyourtv&columns=16" alt="Contributors"></a>
 
 <details>
-<summary><strong>Star history</strong></summary>
+<summary><strong>Star 历史</strong></summary>
 
 <a href="https://star-history.com/#Gathin23/cleanyourtv&Date"><img src="https://api.star-history.com/svg?repos=Gathin23/cleanyourtv&type=Date" alt="Star history chart" width="640"></a>
 
 </details>
 
-## Licence
+## 许可证
 
-MIT, see [`LICENSE`](LICENSE). The Outfit typeface is under the SIL Open Font License, see
-`launcher/FONT-LICENSE-OFL.txt`.
+MIT，见 [`LICENSE`](LICENSE)。Outfit 字体遵循 SIL Open Font License 授权，见 `launcher/FONT-LICENSE-OFL.txt`。

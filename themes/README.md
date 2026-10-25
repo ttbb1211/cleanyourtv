@@ -1,10 +1,10 @@
-# Themes
+# 主题
 
-A theme is a folder with a `config.json` and, optionally, a `wallpaper.jpg`. Pushing one changes the
-launcher's dock, layout and look on the TV without rebuilding the APK: the launcher reads
-`config.json` as an overlay over its built-in `config.xml` the next time it starts.
-Choices made in Launcher settings take priority until you choose Follow theme. Pushing a theme or
-using `tools/theme.sh --reset` also clears those on-TV column and motion choices.
+主题是一个文件夹，其中包含一个 `config.json`，还可选地包含一张 `wallpaper.jpg`。推送一个主题后，无需重新构建
+APK，就能改变电视上启动器的 dock、布局和外观：启动器会在下次启动时读取 `config.json`，把它作为叠加层
+覆盖在内置的 `config.xml` 之上。
+在启动器设置中所做的选择会一直优先生效，直到你选择 Follow theme 为止。推送一个主题或
+使用 `tools/theme.sh --reset`，也会清除电视上已做的这些列数与动效选择。
 
 ```bash
 TV_HOST=192.168.1.50 tools/theme.sh themes/aurora          # push a theme and restart Home
@@ -12,69 +12,69 @@ TV_HOST=192.168.1.50 tools/theme.sh --reset                # back to the built-i
 powershell -ExecutionPolicy Bypass -File tools\theme.ps1 -TvHost 192.168.1.50 themes\aurora
 ```
 
-| Theme | What it does |
+| 主题 | 说明 |
 |---|---|
-| `default/` | The built-in look written out as JSON, as a starting point for your own |
-| `aurora/` | A dark aurora wallpaper (teal and violet on navy, darker at the bottom) with a matching background colour |
-| `six-columns/` | Six smaller tiles per row and one grid row visible under the dock |
+| `default/` | 将内置外观原样写成 JSON，作为自制主题的起点 |
+| `aurora/` | 深色极光壁纸（藏青底色上的青绿色与紫色，底部更暗），并配有相称的背景色 |
+| `six-columns/` | 每行六个更小的磁贴，dock 下方有一行网格可见 |
 
-## Keys
+## 配置键
 
-Every key is optional; a missing key keeps the value from `config.xml`, an unknown or wrongly typed key
-is ignored, and a file that doesn't parse is ignored as a whole, so a theme can never break Home.
+每个键都是可选的：缺失的键会沿用 `config.xml` 中的值，未知或类型不对的键会被忽略，
+而无法解析的文件会被整体忽略，因此主题绝不会让 Home 出问题。
 
-| Key | Type | Meaning |
+| 键 | 类型 | 含义 |
 |---|---|---|
-| `dock_apps` | list of package names | The dock row, in order; missing apps are skipped |
-| `hidden_apps` | list of package names | Never shown as tiles |
-| `live_tv_package`, `live_tv_action` | string | The Live TV app and, if it has no leanback entry, the action to start it with |
-| `source_panel_service`, `source_panel_action` | string | The TV's own source panel, for sets with no TvInputManager |
-| `input_action` | string | Action sent with an HDMI/AV row's channel URI when nothing handles the standard `VIEW` (XGIMI: `com.xgimi.action.hdmiPlayer`) |
-| `columns` | 1 to 8 | Tiles per row; tiles shrink to fit from 5 up |
-| `rows_below_dock` | 0 to 3 | Grid rows left visible under the dock |
-| `shamsi_date` | bool | Show the Solar Hijri date above the Gregorian one |
-| `module_cards` | bool | Look for module cards and ask about them (`true`); `false` turns the feature off |
-| `reduced_motion` | bool | Calmer motion for weak GPUs: stiff highlight spring, no tile overshoot, short fades, no entrance replay |
-| `vpn_app` | string | App the network pill opens when a VPN is configured; also shows a red "VPN off" badge while no VPN is up |
-| `animations` | bool | Basic focus, glass, title and tile entrance motion; true by default |
-| `advanced_effects` | bool | Optional lifted tile, icon zoom, smooth ambient colour and app opening effects; false by default |
-| `show_home_settings_shortcut` | bool | Keep the optional Default-home tile visible when the TV has a home picker; false by default |
-| `background_color` | `#RRGGBB` | Colour behind everything; black by default |
-| `sky_intensity` | 0 to 100 | Time-of-day backdrop: a dark gradient that follows the clock, 0 hides it (default) |
-| `wallpaper` | bool | Show `wallpaper.jpg` from the theme folder (`true`), or ignore it (`false`) |
+| `dock_apps` | 包名列表 | dock 一行的应用，按此顺序排列；缺失的应用会被跳过 |
+| `hidden_apps` | 包名列表 | 永远不会显示为磁贴 |
+| `live_tv_package`, `live_tv_action` | 字符串 | Live TV 应用，以及在没有 leanback 入口时用于启动它的 action |
+| `source_panel_service`, `source_panel_action` | 字符串 | 电视自带的信号源面板，用于没有 TvInputManager 的机型 |
+| `input_action` | 字符串 | 当没有任何应用处理标准 `VIEW` 时，随 HDMI/AV 行的频道 URI 一起发送的 action（XGIMI：`com.xgimi.action.hdmiPlayer`） |
+| `columns` | 1 到 8 | 每行磁贴数量；从 5 起，磁贴会缩小以适应屏幕 |
+| `rows_below_dock` | 0 到 3 | dock 下方保留可见的网格行数 |
+| `shamsi_date` | 布尔值 | 在公历日期上方显示 Solar Hijri 日期 |
+| `module_cards` | 布尔值 | 查找模块卡片并就其进行询问（`true`）；设为 `false` 会关闭该功能 |
+| `reduced_motion` | 布尔值 | 为性能较弱的 GPU 提供更平缓的动效：高亮弹簧更硬、磁贴不过冲、淡入淡出更短、不回放入场动画 |
+| `vpn_app` | 字符串 | 配置了 VPN 时，点击网络胶囊按钮会打开的应用；当没有 VPN 连接时，还会显示红色的 "VPN off" 徽标 |
+| `animations` | 布尔值 | 基础的焦点、玻璃、标题与磁贴入场动效；默认为 true |
+| `advanced_effects` | 布尔值 | 可选的磁贴浮起、图标缩放、平滑环境色与应用打开特效；默认为 false |
+| `show_home_settings_shortcut` | 布尔值 | 当电视带桌面选择器时，保持可选的 Default-home 磁贴可见；默认为 false |
+| `background_color` | `#RRGGBB` | 所有内容背后的背景色；默认为黑色 |
+| `sky_intensity` | 0 到 100 | 昼夜背景：跟随时刻变化的深色渐变，0 表示隐藏（默认） |
+| `wallpaper` | 布尔值 | 显示主题文件夹中的 `wallpaper.jpg`（`true`），或忽略它（`false`） |
 
-## Wallpapers
+## 壁纸
 
-`wallpaper.jpg` is drawn full screen behind the launcher, centre-cropped. Keep it dark, 1920×1080 and
-under about 300 KB: the text, the hero name and the dock band are designed for black, and a 1 GB TV
-decodes the picture into memory on every Home start. Pictures larger than the screen are downsampled.
+`wallpaper.jpg` 会全屏绘制在启动器背后，居中裁剪。请让它保持偏暗、1920×1080，大小约在 300 KB 以内：
+文字、hero 名称和 dock 色带都是针对黑色背景设计的，而且 1 GB 内存的电视在每次回到 Home 时
+都要把图片解码到内存中。大于屏幕尺寸的图片会被降采样。
 
-## Reduced motion
+## 减弱动效
 
-`"reduced_motion": true` keeps the look but calms the movement: the highlight spring is stiff instead
-of bouncing, tiles zoom without overshoot, fades are shorter, and Home does not replay the tile
-entrance when you come back to it. Use it on TVs whose GPU cannot keep up; a MediaTek MT5895 on
-Android 10 is the known case. The default, `false`, keeps the normal motion.
+`"reduced_motion": true` 保持外观不变，但让动效更加平缓：高亮弹簧变得生硬而不再弹跳，磁贴缩放不再过冲，
+淡入淡出更短，而且当你回到 Home 时，不再回放磁贴的入场动画。请把它用在 GPU 跟不上的电视上；
+已知的一例是运行 Android 10 的 MediaTek MT5895。
+默认值 `false` 则保持正常动效。
 
 ```json
 { "reduced_motion": true }
 ```
 
-## Time-of-day backdrop
+## 昼夜背景
 
-`"sky_intensity": 60` draws a dark gradient over the wallpaper and behind everything else, that follows the
-clock: night blues, a soft blue day, then a warm horizon that peaks just before eight in the evening.
-The glow near the bottom edge travels from left to right with the sun. The colours stay dark so the
-white clock, the hero name and the dock band keep their contrast. It is drawn as one 480×270 bitmap
-and redrawn once a minute, never animated, so even a 1 GB TV has nothing to keep up with. `0` keeps
-the plain background; the default is off (the reference launcher looks exactly as before).
+`"sky_intensity": 60` 会在壁纸之上、所有其他内容之下绘制一层跟随时刻变化的深色渐变：夜晚是深蓝，
+白天是柔和的浅蓝，随后是暖色的地平线，在晚上八点前不久达到峰值。
+底边附近的光晕会随太阳从左向右移动。颜色始终保持深色，因此白色时钟、hero 名称和 dock 色带
+仍能保持对比度。它以一张 480×270 位图的形式绘制，每分钟重绘一次，从不做动画，因此
+即使是 1 GB 内存的电视也毫无压力。`0` 表示保持纯色背景；
+默认关闭（reference launcher 的外观与之前完全一致）。
 
 ```json
 { "sky_intensity": 60 }
 ```
 
-## Adding a theme
+## 添加主题
 
-Open a PR with a new folder here, a one-line row in the table above and a screenshot from a real TV
-in the PR description. Keep the dock list generic (the big streaming apps) unless the theme is for a
-specific TV, and say which TV you tried it on.
+在这里开一个 PR，附上一个新的主题文件夹、上面表格中新增的一行说明，并在 PR 描述中放一张真实电视上的截图。
+除非主题是为某台特定电视制作的，否则请让 dock 列表保持通用（即那些主流流媒体应用），
+并说明你在哪台电视上测试过。
